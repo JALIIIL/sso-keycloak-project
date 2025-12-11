@@ -1,0 +1,4 @@
+# This directory will contain Keycloak configuration files
+# - realm-export.json: Exported realm configuration
+# - themes/: Custom Keycloak themes (optional)
+# - extensions/: Custom Keycloak extensions (optional)
