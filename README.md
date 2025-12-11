@@ -10,7 +10,7 @@ Projet d'architecture **Single Sign-On (SSO) open-source** avec Keycloak, OpenLD
 - 📚 Intégrer un annuaire **OpenLDAP** pour la fédération d'identités
 - 🖥️ Développer une **Dummy App** Node.js/Express avec flux OIDC
 - 📡 Mettre en place un bus de messages **Kafka** pour les évènements SSO
-- 📈 Configurer **Elasticsearch + Kibana** pour le monitoring et les logs
+- 📈 Configurer **Elasticsearch + Kibana** pour le monitoring et les logs (Consumer Python + ELK)
 - ✅ Tester les flux nominaux et les scénarios d'erreur (token expiré, brute force, etc.)
 
 ## 📊 Architecture du Projet
