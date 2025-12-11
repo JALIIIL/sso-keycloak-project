@@ -17,7 +17,7 @@ Projet d'architecture **Single Sign-On (SSO) open-source** avec Keycloak, OpenLD
 
 ```
 ┌────────────────┐      ┌────────────────┐      ┌────────────────┐
-│  Navigateur    │ ├───►│  Keycloak     │ ├───►│  PostgreSQL   │
+│  Navigateur    │ ├───►│  Keycloak     │ ├───►│  LemonLDAP   │
 │  Utilisateur   │      │  (SSO IdP)    │      │  (Database)   │
 └──────┬─────────┘      └──────┬─────────┘      └────────────────┘
        │                    │
