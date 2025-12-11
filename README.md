@@ -1,2 +1,179 @@
-# sso-keycloak-project
-Projet d'architecture SSO open-source avec Keycloak, LDAP, et Dummy App (Node.js) - Single Sign-On implementation avec monitoring Kafka/ELK
+# 🔐 Projet SSO Keycloak - Architecture Single Sign-On
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Projet d'architecture **Single Sign-On (SSO) open-source** avec Keycloak, OpenLDAP et monitoring complet (Kafka/ELK), incluant une application de démonstration (Dummy App) en Node.js.
+
+## 🎯 Objectifs du Projet
+
+- 🔒 Implémenter une architecture SSO complète avec **Keycloak** (serveur OIDC/SAML)
+- 📚 Intégrer un annuaire **OpenLDAP** pour la fédération d'identités
+- 🖥️ Développer une **Dummy App** Node.js/Express avec flux OIDC
+- 📡 Mettre en place un bus de messages **Kafka** pour les évènements SSO
+- 📈 Configurer **Elasticsearch + Kibana** pour le monitoring et les logs
+- ✅ Tester les flux nominaux et les scénarios d'erreur (token expiré, brute force, etc.)
+
+## 📊 Architecture du Projet
+
+```
+┌────────────────┐      ┌────────────────┐      ┌────────────────┐
+│  Navigateur    │ ├───►│  Keycloak     │ ├───►│  PostgreSQL   │
+│  Utilisateur   │      │  (SSO IdP)    │      │  (Database)   │
+└──────┬─────────┘      └──────┬─────────┘      └────────────────┘
+       │                    │
+       │                    │
+       │                    │
+       ▼                    ▼
+┌────────────────┐      ┌────────────────┐
+│  Dummy App     │      │   OpenLDAP     │
+│  (Node.js)     │      │  (Annuaire)   │
+└──────┬─────────┘      └────────────────┘
+       │
+       │ Events
+       ▼
+┌────────────────┐      ┌────────────────┐
+│     Kafka      │ ├───►│ Elasticsearch │
+│  (Messaging)   │      │     +        │
+└────────────────┘      │    Kibana     │
+                       │  (Monitoring) │
+                       └────────────────┘
+```
+
+## 📦 Services Déployés
+
+| Service | Description | Port |
+|---------|-------------|----|--|
+| **Keycloak** | Serveur SSO/IdP (OIDC, SAML) | 8080 |
+| **PostgreSQL** | Base de données Keycloak | 5432 |
+| **OpenLDAP** | Annuaire LDAP pour utilisateurs | 389, 636 |
+| **phpLDAPadmin** | Interface web de gestion LDAP | 6443 |
+| **Kafka + Zookeeper** | Bus de messages pour events | 9092 |
+| **Elasticsearch** | Stockage des logs | 9200 |
+| **Kibana** | Visualisation des logs | 5601 |
+| **Dummy App** | Application de démo Node.js/OIDC | 3000 |
+
+## 🚀 Quick Start
+
+### 1️⃣ Cloner le projet
+
+```bash
+git clone https://github.com/JALIIIL/sso-keycloak-project.git
+cd sso-keycloak-project
+```
+
+### 2️⃣ Configurer les variables d'environnement
+
+```bash
+cp .env.example .env
+# ⚠️ Modifiez TOUS les mots de passe dans .env !
+```
+
+### 3️⃣ Lancer le stack complet
+
+```bash
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+### 4️⃣ Vérifier que tout fonctionne
+
+```bash
+docker-compose -f docker-compose.dev.yml ps
+# Tous les services doivent être "Up" ou "healthy"
+```
+
+### 5️⃣ Accéder aux interfaces
+
+- Keycloak Admin : http://localhost:8080/admin
+- phpLDAPadmin : http://localhost:6443
+- Kibana : http://localhost:5601
+
+📖 **Pour plus de détails** : Consultez [docs/SETUP.md](docs/SETUP.md)
+
+---
+
+## 📁 Structure du Projet
+
+```
+sso-keycloak-project/
+├── docker/                  # Configuration Docker des services
+│   ├── keycloak/
+│   ├── ldap/
+│   ├── kafka/
+│   └── elk/
+├── dummy-app/               # Application Node.js/Express avec OIDC
+├── scripts/                 # Scripts d'automatisation
+├── monitoring/              # Consumer Kafka Python pour anomalies
+├── docs/                    # Documentation du projet
+│   └── SETUP.md             # Guide d'installation complet
+├── .env.example             # Template des variables d'environnement
+├── docker-compose.dev.yml   # Stack Docker pour développement
+├── docker-compose.prod.yml  # Stack Docker pour production
+└── README.md                # Ce fichier
+```
+
+---
+
+## 🛠️ Technologies Utilisées
+
+- **Keycloak 23.0** : Serveur SSO open-source (Red Hat)
+- **OpenLDAP 1.5.0** : Annuaire LDAP pour fédération d'utilisateurs
+- **PostgreSQL 15** : Base de données relationnelle
+- **Kafka 7.5** : Bus de messages distribué
+- **Elasticsearch + Kibana 8.11** : Stack ELK pour logs
+- **Node.js + Express** : Backend Dummy App
+- **Docker & Docker Compose** : Conteneurisation
+
+---
+
+## 📋 Roadmap du Projet
+
+- [x] Setup du repository GitHub
+- [x] Configuration Docker Compose (Keycloak, PostgreSQL, LDAP, Kafka, ELK)
+- [x] Documentation SETUP.md complète
+- [ ] Configuration LDAP dans Keycloak (User Federation)
+- [ ] Développement de la Dummy App Node.js avec OIDC
+- [ ] Consumer Kafka Python pour détection d'anomalies
+- [ ] Tests des flux nominaux (login, callback, logout)
+- [ ] Tests des flux d'erreur (token expiré, brute force, serveur down)
+- [ ] Dashboards Kibana pour supervision
+- [ ] Configuration TLS/HTTPS pour production
+- [ ] Documentation finale et présentation
+
+---
+
+## 🔐 Sécurité
+
+⚠️ **Ce projet est pour le développement/apprentissage uniquement !**
+
+Pour la production, pensez à :
+- ✅ Activer HTTPS/TLS partout
+- ✅ Utiliser des secrets managers (Vault, AWS Secrets Manager)
+- ✅ Configurer des rate limits (anti-brute force)
+- ✅ Activer l'authentification Elasticsearch
+- ✅ Générer des mots de passe forts et uniques
+
+---
+
+## 🤝 Contribution
+
+1. Forkez le projet
+2. Créez une branche pour votre feature (`git checkout -b feature/AmazingFeature`)
+3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Pushez vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrez une Pull Request
+
+---
+
+## 📝 Licence
+
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+---
+
+## 📞 Contact
+
+Pour toute question ou suggestion, ouvrez une issue sur ce repository.
+
+---
+
+**Made with ❤️ for learning SSO architectures**
