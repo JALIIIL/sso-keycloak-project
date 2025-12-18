@@ -4,7 +4,7 @@
 
 Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, and full monitoring (Kafka/ELK), including a demonstration application (Dummy App) built with Node.js.
 
-##🎯 Project Objectives
+## 🎯 Project Objectives
 
 -🔒 Implement a complete SSO architecture with Keycloak (OIDC/SAML server)
 -📚 Integrate an OpenLDAP directory for identity federation
