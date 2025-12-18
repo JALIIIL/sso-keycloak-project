@@ -7,10 +7,15 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
 ## 🎯 Project Objectives
 
 -🔒 Implement a complete SSO architecture with Keycloak (OIDC/SAML server)
+
 -📚 Integrate an OpenLDAP directory for identity federation
+
 -🖥️ Develop a Node.js/Express Dummy App using OIDC flows
+
 -📡 Set up a Kafka message bus for SSO events
+
 -📈 Configure Elasticsearch + Kibana for monitoring and logs (Python Consumer + ELK)
+
 -✅ Test nominal flows and error scenarios (expired tokens, brute force, etc.)
 
 ## 📊 Project Architecture
