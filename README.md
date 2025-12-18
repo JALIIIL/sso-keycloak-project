@@ -1,21 +1,21 @@
-# 🔐 Projet SSO Keycloak - Architecture Single Sign-On
+# 🔐 Keycloak SSO Project – Single Sign-On Architecture
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Projet d'architecture **Single Sign-On (SSO) open-source** avec Keycloak, OpenLDAP et monitoring complet (Kafka/ELK), incluant une application de démonstration (Dummy App) en Node.js.
+Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, and full monitoring (Kafka/ELK), including a demonstration application (Dummy App) built with Node.js.
 
-## 🎯 Objectifs du Projet
+##🎯 Project Objectives
 
-- 🔒 Implémenter une architecture SSO complète avec **Keycloak** (serveur OIDC/SAML)
-- 📚 Intégrer un annuaire **OpenLDAP** pour la fédération d'identités
-- 🖥️ Développer une **Dummy App** Node.js/Express avec flux OIDC
-- 📡 Mettre en place un bus de messages **Kafka** pour les évènements SSO
-- 📈 Configurer **Elasticsearch + Kibana** pour le monitoring et les logs (Consumer Python + ELK)
-- ✅ Tester les flux nominaux et les scénarios d'erreur (token expiré, brute force, etc.)
+-🔒 Implement a complete SSO architecture with Keycloak (OIDC/SAML server)
+-📚 Integrate an OpenLDAP directory for identity federation
+-🖥️ Develop a Node.js/Express Dummy App using OIDC flows
+-📡 Set up a Kafka message bus for SSO events
+-📈 Configure Elasticsearch + Kibana for monitoring and logs (Python Consumer + ELK)
+-✅ Test nominal flows and error scenarios (expired tokens, brute force, etc.)
 
-## 📊 Architecture du Projet
+## 📊 Project Architecture
 
-`### 🏗️ Diagramme d'Architecture Complet
+`### 🏗️ Complete Architecture Diagram
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
