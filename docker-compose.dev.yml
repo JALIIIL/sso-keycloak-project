@@ -181,6 +181,7 @@ services:
       - localhost:host-gateway
   # ================================
   # Kafka Consumer (Python - Monitoring)
+    # ================================
   kafka-consumer:
       build: ./monitoring
     container_name: sso-kafka-consumer
