@@ -1,8 +1,6 @@
 version: '3.8'
 services:
-  # ================================
   # PostgreSQL Database
-  # ================================
   postgres:
     image: postgres:15-alpine
     container_name: sso-postgres
@@ -22,9 +20,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # ================================
   # Keycloak SSO Server
-  # ================================
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
     container_name: sso-keycloak
@@ -51,14 +47,11 @@ services:
       - sso-network
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ready || exit 1"]
-      interval: 60s
-      timeout: 20s
-      retries: 15
-      start_period: 180s
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
-  # ================================
   # OpenLDAP Server
-  # ================================
   openldap:
     image: osixia/openldap:1.5.0
     container_name: sso-openldap
@@ -77,9 +70,7 @@ services:
     networks:
       - sso-network
 
-  # ================================
   # phpLDAPadmin (LDAP Management UI)
-  # ================================
   phpldapadmin:
     image: osixia/phpldapadmin:0.9.0
     container_name: sso-phpldapadmin
@@ -93,9 +84,7 @@ services:
     networks:
       - sso-network
 
-  # ================================
   # Zookeeper (for Kafka)
-  # ================================
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     container_name: sso-zookeeper
@@ -105,9 +94,7 @@ services:
     networks:
       - sso-network
 
-  # ================================
   # Kafka Message Broker
-  # ================================
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     container_name: sso-kafka
@@ -124,9 +111,7 @@ services:
     networks:
       - sso-network
 
-  # ================================
   # Elasticsearch (Logs Storage)
-  # ================================
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
     container_name: sso-elasticsearch
@@ -141,9 +126,7 @@ services:
     networks:
       - sso-network
 
-  # ================================
   # Kibana (Logs Visualization)
-  # ================================
   kibana:
     image: docker.elastic.co/kibana/kibana:8.11.0
     container_name: sso-kibana
@@ -156,9 +139,7 @@ services:
     networks:
       - sso-network
 
-  # ================================
   # Dummy App (Node.js OIDC Client)
-  # ================================
   dummy-app:
     build: ./dummy-app
     container_name: sso-dummy-app
@@ -179,10 +160,7 @@ services:
       - sso-network
     extra_hosts:
       - "keycloak:host-gateway"
-    
-  # ================================
   # Kafka Consumer (Python - Monitoring)
-  # ================================
   kafka-consumer:
     build: ./monitoring
     container_name: sso-kafka-consumer
