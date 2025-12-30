@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSO Demo - Accueil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .welcome-container {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 450px;
+            text-align: center;
+        }
+        .welcome-container h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .welcome-container p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+            border-left: 4px solid #667eea;
+        }
+        .info-box strong {
+            color: #667eea;
+        }
+        .features {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+        .features li {
+            padding: 5px 0;
+        }
+        .features li:before {
+            content: "✔️ ";
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <h1>🔐 SSO Keycloak Demo</h1>
+        <p>Application de démonstration Single Sign-On avec Keycloak</p>
+        
+        <!-- Bouton de connexion qui redirige vers Keycloak -->
+        <a href="/login" class="btn btn-login">🔑 Se connecter avec Keycloak</a>
+        
+        <div class="info-box">
+            <strong>ℹ️ Fonctionnalités :</strong>
+            <ul class="features">
+                <li>Authentification SSO via Keycloak</li>
+                <li>Gestion des rôles (Utilisateur/Admin)</li>
+                <li>Session sécurisée avec JWT</li>
+                <li>Intégration OIDC complète</li>
+                <li>Monitoring avec Kafka/ELK</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
