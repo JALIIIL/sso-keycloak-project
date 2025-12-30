@@ -156,48 +156,48 @@ services:
     networks:
       - sso-network
 
-        # ================================
-          # Dummy App (Node.js OIDC Client)
-            # ================================
-              dummy-app:
-                  build: ./dummy-app
-                      container_name: sso-dummy-app
-                          environment:
-                                KEYCLOAK_URL: http://keycloak:8080
-                                      KEYCLOAK_REALM: ${KEYCLOAK_REALM:-sso-demo}
-                                            CLIENT_ID: ${CLIENT_ID:-dummy-app}
-                                                  CLIENT_SECRET: ${CLIENT_SECRET}
-                                                        PORT: ${APP_PORT:-3000}
-                                                              SESSION_SECRET: ${SESSION_SECRET}
-                                                                    NODE_ENV: ${NODE_ENV:-development}
-                                                                        ports:
-                                                                              - "${APP_PORT:-3000}:3000"
-                                                                                  depends_on:
-                                                                                        keycloak:
-                                                                                                condition: service_healthy
-                                                                                                    networks:
-                                                                                                          - sso-network
-                                                                                                          
-                                                                                                            # ================================
-                                                                                                              # Kafka Consumer (Python - Monitoring)
-                                                                                                                # ================================
-                                                                                                                  kafka-consumer:
-                                                                                                                      build: ./monitoring
-                                                                                                                          container_name: sso-kafka-consumer
-                                                                                                                              environment:
-                                                                                                                                    KAFKA_BROKER: ${KAFKA_BROKER:-kafka:9092}
-                                                                                                                                          KAFKA_TOPIC_KEYCLOAK_EVENTS: ${KAFKA_TOPIC_KEYCLOAK_EVENTS:-keycloak-events}
-                                                                                                                                                KAFKA_TOPIC_APP_LOGS: ${KAFKA_TOPIC_APP_LOGS:-app-logs}
-                                                                                                                                                      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID:-sso-monitoring}
-                                                                                                                                                            ELASTIC_HOST: ${ELASTIC_HOST:-elasticsearch}
-                                                                                                                                                                  ELASTIC_PORT: ${ELASTIC_PORT:-9200}
-                                                                                                                                                                        LOG_LEVEL: ${LOG_LEVEL:-INFO}
-                                                                                                                                                                            depends_on:
-                                                                                                                                                                                  - kafka
-                                                                                                                                                                                        - elasticsearch
-                                                                                                                                                                                            networks:
-                                                                                                                                                                                                  - sso-network
-                                                                                                                                                                                                      restart: unless-stopped
+  # ================================
+  # Dummy App (Node.js OIDC Client)
+  # ================================
+  dummy-app:
+    build: ./dummy-app
+    container_name: sso-dummy-app
+    environment:
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM:-sso-demo}
+      CLIENT_ID: ${CLIENT_ID:-dummy-app}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      PORT: ${APP_PORT:-3000}
+      SESSION_SECRET: ${SESSION_SECRET}
+      NODE_ENV: ${NODE_ENV:-development}
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    networks:
+      - sso-network
+
+  # ================================
+  # Kafka Consumer (Python - Monitoring)
+  # ================================
+  kafka-consumer:
+    build: ./monitoring
+    container_name: sso-kafka-consumer
+    environment:
+      KAFKA_BROKER: ${KAFKA_BROKER:-kafka:9092}
+      KAFKA_TOPIC_KEYCLOAK_EVENTS: ${KAFKA_TOPIC_KEYCLOAK_EVENTS:-keycloak-events}
+      KAFKA_TOPIC_APP_LOGS: ${KAFKA_TOPIC_APP_LOGS:-app-logs}
+      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID:-sso-monitoring}
+      ELASTIC_HOST: ${ELASTIC_HOST:-elasticsearch}
+      ELASTIC_PORT: ${ELASTIC_PORT:-9200}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    depends_on:
+      - kafka
+      - elasticsearch
+    networks:
+      - sso-network
+    restart: unless-stopped
 
 volumes:
   postgres_data:
@@ -208,4 +208,3 @@ volumes:
 networks:
   sso-network:
     driver: bridge
-
