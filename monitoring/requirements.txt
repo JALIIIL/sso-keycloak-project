@@ -1,0 +1,8 @@
+# Kafka client for Python
+kafka-python==2.0.2
+
+# Elasticsearch client
+elasticsearch==7.17.9
+
+# Logging and utilities
+python-dotenv==1.0.0
