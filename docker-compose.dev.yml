@@ -169,7 +169,7 @@ services:
       PORT: ${APP_PORT:-3000}
       SESSION_SECRET: ${SESSION_SECRET}
       NODE_ENV: ${NODE_ENV:-development}
-    ports:
+      ports:
       - "${APP_PORT:-3000}:3000"
     depends_on:
       keycloak:
@@ -177,7 +177,7 @@ services:
     networks:
       - sso-network
     extra_hosts:
-      - localhost:host-gateway
+      - "keycloak:host-gateway"
   # ================================
   # Kafka Consumer (Python - Monitoring)
   # ================================
