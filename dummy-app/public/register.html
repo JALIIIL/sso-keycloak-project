@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un compte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .register-container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .register-container h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        .info-box p {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .info-box strong {
+            color: #007bff;
+        }
+        .btn-register {
+            width: 100%;
+            padding: 14px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: background-color 0.3s;
+            margin-bottom: 15px;
+        }
+        .btn-register:hover {
+            background-color: #0069d9;
+        }
+        .btn-keycloak {
+            width: 100%;
+            padding: 14px;
+            background-color: #6c757d;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .btn-keycloak:hover {
+            background-color: #5a6268;
+        }
+        .login-link {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .login-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+        .divider span {
+            padding: 0 10px;
+            color: #666;
+            font-size: 13px;
+        }
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .features-list li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .features-list li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Créer un compte</h2>
+        <p class="subtitle">Rejoignez notre plateforme SSO sécurisée</p>
+        
+        <div class="info-box">
+            <p>
+                <strong>Inscription via Keycloak</strong><br>
+                Votre compte sera créé dans notre système d'authentification centralisé Keycloak.
+                Vous pourrez ensuite vous connecter à toutes les applications avec un seul compte.
+            </p>
+        </div>
+        
+        <ul class="features-list">
+            <li>Authentification sécurisée multi-facteurs</li>
+            <li>Un seul compte pour toutes les applications</li>
+            <li>Gestion centralisée de vos informations</li>
+            <li>Support LDAP et annuaire d'entreprise</li>
+        </ul>
+        
+        <a href="/register" class="btn-register">
+            Créer un compte Keycloak
+        </a>
+        
+        <div class="divider">
+            <span>ou</span>
+        </div>
+        
+        <a href="http://localhost:8080/admin/master/console/#/sso-demo/users" target="_blank" class="btn-keycloak">
+            Gérer les utilisateurs (Admin)
+        </a>
+        
+        <p class="login-link">
+            Déjà inscrit ? <a href="/login">Se connecter</a>
+        </p>
+    </div>
+</body>
+</html>
