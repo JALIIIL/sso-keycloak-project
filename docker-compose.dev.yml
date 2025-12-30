@@ -178,12 +178,10 @@ services:
     networks:
       - sso-network
           extra_hosts:
-                - "localhost:host-gateway"
-
+      - localhost:host-gateway
   # ================================
   # Kafka Consumer (Python - Monitoring)
-  # ================================
-  kafka-consumer:
+      - localhost:host-gateway  kafka-consumer:
     build: ./monitoring
     container_name: sso-kafka-consumer
     environment:
