@@ -177,11 +177,11 @@ services:
         condition: service_healthy
     networks:
       - sso-network
-          extra_hosts:
+    extra_hosts:
       - localhost:host-gateway
   # ================================
   # Kafka Consumer (Python - Monitoring)
-    # ================================
+  # ================================
   kafka-consumer:
       build: ./monitoring
     container_name: sso-kafka-consumer
