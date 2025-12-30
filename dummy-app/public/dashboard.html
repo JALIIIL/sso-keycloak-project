@@ -1,1 +1,244 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Espace Utilisateur</title><style>body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;padding:20px}.dashboard-container{background:white;padding:35px 45px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.3);width:100%;max-width:500px}h2{text-align:center;color:#333;margin-bottom:30px}.info-card{background:#f8f9fa;padding:18px;border-radius:8px;margin-bottom:18px;border-left:4px solid #667eea}.label{font-weight:bold;color:#555;display:block;margin-bottom:8px;font-size:14px}.value{color:#333;font-size:18px}.roles-badge{display:inline-block;padding:6px 14px;border-radius:20px;font-size:13px;margin-right:5px}.role-user{background:#17a2b8;color:white}.role-admin{background:#dc3545;color:white}button{width:100%;padding:15px;margin-top:25px;font-size:16px;border:none;border-radius:8px;cursor:pointer;background:#dc3545;color:white}button:hover{background:#c82333}</style></head><body><div class="dashboard-container"><div id="loading">Chargement...</div><div id="user-content" style="display:none"><h2>Espace Utilisateur</h2><div class="info-card"><span class="label">Nom</span><span class="value" id="username">-</span></div><div class="info-card"><span class="label">Email</span><span class="value" id="email">-</span></div><div class="info-card"><span class="label">Roles</span><div id="roles">-</div></div><button onclick="logout()">Se deconnecter</button></div></div><script>async function loadUserInfo(){try{const response=await fetch('/api/user');const data=await response.json();if(data.authenticated){document.getElementById('loading').style.display='none';document.getElementById('user-content').style.display='block';document.getElementById('username').textContent=data.user.displayName||data.user.name||'Utilisateur';document.getElementById('email').textContent=data.user.email||'Non defini';const roles=data.user.roles||['user'];document.getElementById('roles').innerHTML=roles.map(r=>'<span class="roles-badge role-'+r+'">'+r+'</span>').join('')}else{window.location.href='/'}}catch(e){window.location.href='/'}}function logout(){if(confirm('Deconnexion?'))window.location.href='/logout'}loadUserInfo()</script></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Utilisateur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .dashboard-container {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 600px;
+        }
+        #loading {
+            text-align: center;
+            font-size: 18px;
+            color: #667eea;
+        }
+        #user-content {
+            display: none;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .welcome-message {
+            text-align: center;
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 8px;
+        }
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.2s;
+        }
+        .info-card:hover {
+            transform: translateX(5px);
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .value {
+            color: #333;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .roles-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-right: 8px;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        .role-user {
+            background: #17a2b8;
+            color: white;
+        }
+        .role-admin {
+            background: #dc3545;
+            color: white;
+        }
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #dc3545;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+        }
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #f5c6cb;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div id="loading">
+            <svg width="50" height="50" viewBox="0 0 50 50">
+                <circle cx="25" cy="25" r="20" stroke="#667eea" stroke-width="4" fill="none" stroke-dasharray="31.4 31.4" transform="rotate(0 25 25)">
+                    <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/>
+                </circle>
+            </svg>
+            <p style="margin-top: 15px;">Chargement des informations...</p>
+        </div>
+        
+        <div id="user-content">
+            <h2>👋 Espace Utilisateur</h2>
+            
+            <div class="welcome-message">
+                Bienvenue sur votre tableau de bord SSO Keycloak!
+            </div>
+            
+            <div class="info-card">
+                <span class="label">Nom Complet</span>
+                <span class="value" id="username">-</span>
+            </div>
+            
+            <div class="info-card">
+                <span class="label">Adresse Email</span>
+                <span class="value" id="email">-</span>
+            </div>
+            
+            <div class="info-card">
+                <span class="label">Rôles & Permissions</span>
+                <div id="roles">-</div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value">✓</div>
+                    <div class="stat-label">Authentifié</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">SSO</div>
+                    <div class="stat-label">Keycloak</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">OIDC</div>
+                    <div class="stat-label">Protocole</div>
+                </div>
+            </div>
+            
+            <button onclick="logout()">🚪 Se déconnecter</button>
+            
+            <div id="error" class="error-message" style="display:none;"></div>
+        </div>
+    </div>
+    
+    <script>
+        async function loadUserInfo() {
+            try {
+                const response = await fetch('/api/user');
+                const data = await response.json();
+                
+                if (data.authenticated) {
+                    // Masquer le loading
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('user-content').style.display = 'block';
+                    
+                    // Afficher les informations
+                    document.getElementById('username').textContent = 
+                        data.user.displayName || data.user.name || 'Utilisateur';
+                    document.getElementById('email').textContent = 
+                        data.user.email || 'Non défini';
+                    
+                    // Afficher les rôles
+                    const roles = data.user.roles || ['user'];
+                    document.getElementById('roles').innerHTML = roles
+                        .map(r => `<span class="roles-badge role-${r}">${r.toUpperCase()}</span>`)
+                        .join('');
+                } else {
+                    window.location.href = '/';
+                }
+            } catch (e) {
+                console.error('Erreur:', e);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').textContent = 
+                    'Erreur de chargement des informations utilisateur. Veuillez vous reconnecter.';
+                setTimeout(() => window.location.href = '/', 3000);
+            }
+        }
+        
+        function logout() {
+            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                window.location.href = '/logout';
+            }
+        }
+        
+        // Charger automatiquement au démarrage
+        loadUserInfo();
+    </script>
+</body>
+</html>
