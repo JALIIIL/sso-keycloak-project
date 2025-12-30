@@ -163,7 +163,7 @@ services:
     build: ./dummy-app
     container_name: sso-dummy-app
     environment:
-      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_URL: http://host.docker.internal:8080
       KEYCLOAK_REALM: ${KEYCLOAK_REALM:-sso-demo}
       CLIENT_ID: ${CLIENT_ID:-dummy-app}
       CLIENT_SECRET: ${CLIENT_SECRET}
