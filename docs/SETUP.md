@@ -1,14 +1,14 @@
 # 🚀 Quick Start - SSO Keycloak
 
-## 📋 Prérequis
+## 📋 Prerequisites
 
-- Docker (v20+) et Docker Compose (v2+)
+- Docker (v20+) and Docker Compose (v2+)
 - Git
-- Node.js (v18+) pour la Dummy App
+- Node.js (v18+) for the Dummy App
 
-## ⚡ Installation (3 étapes)
+## ⚡ Installation (3 steps)
 
-### 1. Cloner et configurer
+### 1. Clone and configure
 
 ```bash
 git clone https://github.com/JALIIIL/sso-keycloak-project.git
@@ -16,112 +16,112 @@ cd sso-keycloak-project
 cp .env.example .env
 ```
 
-### 2. Modifier le fichier .env
+### 2. Edit the .env file
 
-Ouvrez `.env` et changez les mots de passe :
+Open `.env` and update passwords:
 
 ```bash
-KEYCLOAK_ADMIN_PASSWORD=VotreMotDePasse
-POSTGRES_PASSWORD=VotreMotDePasseDB
-LDAP_ADMIN_PASSWORD=VotreMotDePasseLDAP
-OIDC_CLIENT_SECRET=VotreClientSecret
+KEYCLOAK_ADMIN_PASSWORD=YourStrongPassword
+POSTGRES_PASSWORD=YourDBPassword
+LDAP_ADMIN_PASSWORD=YourLDAPPassword
+OIDC_CLIENT_SECRET=YourClientSecret
 ```
 
-⚠️ **Ne JAMAIS commit le fichier .env !**
+⚠️ **Never commit the .env file!**
 
-### 3. Lancer le stack
+### 3. Start the stack
 
 ```bash
 docker-compose -f docker-compose.dev.yml up -d
 ```
 
-Attendez 1 minute que tous les services démarrent.
+Wait about 1 minute for services to start.
 
-## 🔍 Accès aux Services
+## 🔍 Accessing services
 
 - **Keycloak Admin** : http://localhost:8080/admin
   - Username: `admin`
-  - Password: [Votre KEYCLOAK_ADMIN_PASSWORD]
+  - Password: [Your KEYCLOAK_ADMIN_PASSWORD]
 
 - **phpLDAPadmin** : http://localhost:6443
 - **Kibana** : http://localhost:5601
 
-## ⚙️ Configuration Keycloak (Minimum)
+## ⚙️ Keycloak minimum configuration
 
-### Créer un Realm
+### Create a Realm
 
-1. Connectez-vous à Keycloak
-2. Cliquez sur "master" (en haut à gauche) → **Create Realm**
-3. Nom : `sso-demo`
-4. Cliquez **Create**
+1. Log in to Keycloak
+2. Click on "master" (top-left) → **Create Realm**
+3. Name: `sso-demo`
+4. Click **Create**
 
-### Créer un Client OIDC
+### Create an OIDC Client
 
-1. Dans le realm `sso-demo` → **Clients** → **Create client**
-2. Remplissez :
-   - **Client ID** : `dummy-app`
-   - **Client authentication** : ON
-   - **Valid redirect URIs** : `http://localhost:3000/*`
-   - **Web origins** : `http://localhost:3000`
-3. Cliquez **Save**
-4. Copiez le **Client Secret** (onglet Credentials)
-5. Mettez-le dans `.env` : `OIDC_CLIENT_SECRET=...`
+1. In the `sso-demo` realm → **Clients** → **Create client**
+2. Fill in:
+   - **Client ID**: `dummy-app`
+   - **Client authentication**: ON
+   - **Valid redirect URIs**: `http://localhost:3000/*`
+   - **Web origins**: `http://localhost:3000`
+3. Click **Save**
+4. Copy the **Client Secret** (Credentials tab)
+5. Put it in `.env`: `OIDC_CLIENT_SECRET=...`
 
-### Créer un utilisateur test
+### Create a test user
 
 1. **Users** → **Add user**
-2. Username : `testuser`
-3. Onglet **Credentials** → Définir un mot de passe
-4. Désactiver **Temporary**
+2. Username: `testuser`
+3. Credentials tab → Set a password
+4. Disable **Temporary**
 
-## 🧪 Test Rapide
+## 🧪 Quick test
 
-Vérifiez que Keycloak fonctionne :
+Verify Keycloak is running:
 
 ```bash
 curl http://localhost:8080/health/ready
 ```
 
-Résultat attendu : `{"status":"UP"}`
+Expected result: `{"status":"UP"}`
 
-## 🛑 Arrêter
+## 🛑 Stop
 
 ```bash
-# Arrêter sans supprimer les données
+# Stop without removing data
 docker-compose -f docker-compose.dev.yml down
 
-# Reset complet (supprimer les volumes)
+# Full reset (remove volumes)
 docker-compose -f docker-compose.dev.yml down -v
 ```
 
-## 📝 Commandes Utiles
+## 📝 Useful commands
 
 ```bash
-# Voir les logs
+# View logs
 docker-compose -f docker-compose.dev.yml logs -f keycloak
 
-# Redémarrer un service
+# Restart a service
 docker-compose -f docker-compose.dev.yml restart keycloak
 
-# Voir l'état des services
+# View service status
 docker-compose -f docker-compose.dev.yml ps
 ```
 
-## 🆘 Problèmes Fréquents
+## 🆘 Common issues
 
-**Port déjà utilisé ?**
-→ Changez les ports dans `.env` (ex: `KEYCLOAK_HTTP_PORT=8081`)
+**Port already in use?**
+→ Change ports in `.env` (e.g. `KEYCLOAK_HTTP_PORT=8081`)
 
-**Keycloak ne démarre pas ?**
-→ Attendez 30s que PostgreSQL soit prêt, puis relancez
+**Keycloak won't start?**
+→ Wait 30s for PostgreSQL to be ready, then restart
 
-**Impossible de se connecter ?**
-→ Vérifiez les logs : `docker-compose -f docker-compose.dev.yml logs keycloak`
+**Unable to login?**
+→ Check logs: `docker-compose -f docker-compose.dev.yml logs keycloak`
 
-## 📚 Documentation Complète
+## 📚 Full documentation
 
-Pour plus de détails (LDAP, Kafka, Elasticsearch, etc.), consultez le README.md principal.
+For more details (LDAP, Kafka, Elasticsearch, etc.), see the main README.md.
 
 ---
 
-⚠️ **Ce setup est pour le développement uniquement !**
+⚠️ **This setup is for development only!**

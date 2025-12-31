@@ -1,27 +1,27 @@
 # Dummy Application - SSO Keycloak Demo
 
-Application de démonstration Node.js/Express intégrant l'authentification SSO avec Keycloak via OpenID Connect (OIDC).
+This is a Node.js/Express demo application that integrates SSO authentication with Keycloak using OpenID Connect (OIDC).
 
-## 🎯 Objectif
+## 🎯 Purpose
 
-Cette application sert de client OIDC pour valider l'intégration avec Keycloak et démontrer les flux d'authentification SSO.
+The application serves as an OIDC client to validate Keycloak integration and demonstrate SSO authentication flows.
 
-## 📋 Prérequis
+## 📋 Prerequisites
 
 - Node.js 18+
-- Docker & Docker Compose (pour Keycloak)
-- Keycloak configuré avec le realm `sso-demo` et le client `dummy-app`
+- Docker & Docker Compose (for Keycloak)
+- Keycloak configured with the `sso-demo` realm and the `dummy-app` client
 
 ## 🚀 Installation
 
-### 1. Cloner le projet
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/JALIIIL/sso-keycloak-project.git
 cd sso-keycloak-project/dummy-app
 ```
 
-### 2. Installer les dépendances
+### 2. Install dependencies
 
 ```bash
 npm install
@@ -29,13 +29,13 @@ npm install
 
 ### 3. Configuration
 
-Copier le fichier `.env.example` vers `.env` et configurer:
+Copy `.env.example` to `.env` and update values:
 
 ```bash
 cp .env.example .env
 ```
 
-Modifier les valeurs dans `.env`:
+Example `.env` values:
 
 ```env
 # Keycloak Configuration
@@ -53,45 +53,45 @@ SESSION_SECRET=change-me-in-production
 NODE_ENV=development
 ```
 
-## 🎮 Utilisation
+## 🎮 Usage
 
-### Démarrage en mode développement
+### Development
 
 ```bash
 npm run dev
 ```
 
-### Démarrage en mode production
+### Production
 
 ```bash
 npm start
 ```
 
-L'application sera accessible sur `http://localhost:3000`
+The app will be available at `http://localhost:3000`.
 
-## 🔒 Flux d'authentification OIDC
+## 🔒 OIDC Authentication Flow
 
-1. **Accès à l'application** → Redirection vers Keycloak
-2. **Authentification** → Saisie credentials sur Keycloak
-3. **Authorization Code** → Keycloak redirige avec code
-4. **Token Exchange** → Application échange code contre tokens
-5. **Session** → Utilisateur authentifié
+1. **Access the app** → Redirect to Keycloak
+2. **Authenticate** → Enter credentials on Keycloak
+3. **Authorization Code** → Keycloak redirects with code
+4. **Token Exchange** → App exchanges code for tokens
+5. **Session** → User authenticated
 
 ## 📁 Structure
 
 ```
 dummy-app/
 ├── src/
-│   ├── server.js          # Point d'entrée Express
+│   ├── server.js          # Express entrypoint
 │   ├── config/
-│   │   └── keycloak.js    # Configuration OIDC
+│   │   └── keycloak.js    # OIDC configuration
 │   ├── routes/
-│   │   ├── auth.js        # Routes authentification
-│   │   └── protected.js   # Routes protégées
+│   │   ├── auth.js        # Authentication routes
+│   │   └── protected.js   # Protected routes
 │   └── middleware/
-│       └── auth.js        # Middleware vérification tokens
+│       └── auth.js        # Token verification middleware
 ├── public/
-│   ├── dashboard.html     # Interface utilisateur
+│   ├── dashboard.html     # User interface
 │   └── styles.css
 ├── package.json
 ├── Dockerfile
@@ -102,13 +102,13 @@ dummy-app/
 
 ## 🐳 Docker
 
-### Build de l'image
+### Build image
 
 ```bash
 docker build -t dummy-app .
 ```
 
-### Lancement du conteneur
+### Run container
 
 ```bash
 docker run -p 3000:3000 --env-file .env dummy-app
@@ -116,52 +116,50 @@ docker run -p 3000:3000 --env-file .env dummy-app
 
 ## 🔗 Endpoints
 
-- `GET /` - Page d'accueil publique
-- `GET /login` - Déclenche l'authentification OIDC
-- `GET /callback` - Callback OIDC après authentification
-- `GET /dashboard` - Page protégée (requiert authentification)
-- `GET /userinfo` - Informations utilisateur connecté
-- `GET /logout` - Déconnexion
+- `GET /` - Public home page
+- `GET /login` - Trigger OIDC authentication
+- `GET /callback` - OIDC callback after authentication
+- `GET /dashboard` - Protected page (requires auth)
+- `GET /api/user` - Current authenticated user info
+- `GET /logout` - Logout
 - `GET /health` - Health check
 
-## 🧪 Tests
+## 🧪 Testing Authentication
 
-### Tester l'authentification
+1. Start Keycloak: `docker-compose -f ../docker-compose.dev.yml up -d`
+2. Create a test user in Keycloak (realm `sso-demo`)
+3. Start the app: `npm run dev`
+4. Open `http://localhost:3000/dashboard`
+5. Login with the test credentials
 
-1. Démarrer Keycloak: `docker-compose -f ../docker-compose.dev.yml up -d`
-2. Créer un utilisateur test dans Keycloak (realm sso-demo)
-3. Démarrer l'app: `npm run dev`
-4. Accéder à `http://localhost:3000/dashboard`
-5. Se connecter avec les credentials test
+## 📊 Environment Variables
 
-## 📊 Variables d'environnement
-
-| Variable | Description | Valeur par défaut |
-|----------|-------------|-------------------|
-| `KEYCLOAK_URL` | URL Keycloak | `http://localhost:8080` |
-| `KEYCLOAK_REALM` | Nom du realm | `sso-demo` |
-| `CLIENT_ID` | ID du client OIDC | `dummy-app` |
-| `CLIENT_SECRET` | Secret du client | - |
-| `CALLBACK_URL` | URL de callback | `http://localhost:3000/callback` |
-| `PORT` | Port application | `3000` |
-| `SESSION_SECRET` | Secret session Express | - |
-| `NODE_ENV` | Environnement | `development` |
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `KEYCLOAK_URL` | Keycloak base URL | `http://localhost:8080` |
+| `KEYCLOAK_REALM` | Realm name | `sso-demo` |
+| `CLIENT_ID` | OIDC client ID | `dummy-app` |
+| `CLIENT_SECRET` | Client secret | - |
+| `CALLBACK_URL` | Callback URL | `http://localhost:3000/callback` |
+| `PORT` | App port | `3000` |
+| `SESSION_SECRET` | Express session secret | - |
+| `NODE_ENV` | Environment | `development` |
 
 ## 🛠️ Technologies
 
-- **Express.js** - Framework web Node.js
-- **openid-client** - Client OIDC pour Node.js
-- **express-session** - Gestion sessions
-- **Keycloak** - Serveur d'authentification
+- **Express.js** - Node.js web framework
+- **passport-openidconnect** - OIDC strategy for Passport (used in the app)
+- **express-session** - Session management
+- **Keycloak** - Authentication server
 
 ## 🐛 Debugging
 
-Activer les logs détaillés:
+Enable verbose logs:
 
 ```bash
 DEBUG=* npm run dev
 ```
 
-## 📝 Licence
+## 📝 License
 
 MIT

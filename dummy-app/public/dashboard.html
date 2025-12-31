@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Utilisateur</title>
+    <title>User Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -150,35 +150,35 @@
                     <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/>
                 </circle>
             </svg>
-            <p style="margin-top: 15px;">Chargement des informations...</p>
+            <p style="margin-top: 15px;">Loading user information...</p>
         </div>
         
         <div id="user-content">
-            <h2>👋 Espace Utilisateur</h2>
-            
+            <h2>👋 User Dashboard</h2>
+
             <div class="welcome-message">
-                Bienvenue sur votre tableau de bord SSO Keycloak!
+                Welcome to your Keycloak SSO dashboard!
             </div>
             
             <div class="info-card">
-                <span class="label">Nom Complet</span>
+                <span class="label">Full Name</span>
                 <span class="value" id="username">-</span>
             </div>
             
             <div class="info-card">
-                <span class="label">Adresse Email</span>
+                <span class="label">Email Address</span>
                 <span class="value" id="email">-</span>
             </div>
             
             <div class="info-card">
-                <span class="label">Rôles & Permissions</span>
+                <span class="label">Roles & Permissions</span>
                 <div id="roles">-</div>
             </div>
             
             <div class="stats-container">
                 <div class="stat-card">
                     <div class="stat-value">✓</div>
-                    <div class="stat-label">Authentifié</div>
+                    <div class="stat-label">Authenticated</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">SSO</div>
@@ -186,11 +186,11 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">OIDC</div>
-                    <div class="stat-label">Protocole</div>
+                    <div class="stat-label">Protocol</div>
                 </div>
             </div>
             
-            <button onclick="logout()">🚪 Se déconnecter</button>
+            <button onclick="logout()">🚪 Log out</button>
             
             <div id="error" class="error-message" style="display:none;"></div>
         </div>
@@ -209,9 +209,9 @@
                     
                     // Afficher les informations
                     document.getElementById('username').textContent = 
-                        data.user.displayName || data.user.name || 'Utilisateur';
+                        data.user.displayName || data.user.name || 'User';
                     document.getElementById('email').textContent = 
-                        data.user.email || 'Non défini';
+                        data.user.email || 'Not specified';
                     
                     // Afficher les rôles
                     const roles = data.user.roles || ['user'];
@@ -226,13 +226,13 @@
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('error').style.display = 'block';
                 document.getElementById('error').textContent = 
-                    'Erreur de chargement des informations utilisateur. Veuillez vous reconnecter.';
+                    'Failed to load user information. Please sign in again.';
                 setTimeout(() => window.location.href = '/', 3000);
             }
         }
         
         function logout() {
-            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+            if (confirm('Do you really want to log out?')) {
                 window.location.href = '/logout';
             }
         }

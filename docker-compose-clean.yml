@@ -144,14 +144,14 @@ services:
     build: ./dummy-app
     container_name: sso-dummy-app
     environment:
-      KEYCLOAK_URL: http://localhost:8080
+      KEYCLOAK_URL: http://keycloak:8080
       KEYCLOAK_REALM: ${KEYCLOAK_REALM:-sso-demo}
       CLIENT_ID: ${CLIENT_ID:-dummy-app}
       CLIENT_SECRET: ${CLIENT_SECRET}
       PORT: ${APP_PORT:-3000}
       SESSION_SECRET: ${SESSION_SECRET}
       NODE_ENV: ${NODE_ENV:-development}
-      ports:
+    ports:
       - "${APP_PORT:-3000}:3000"
     depends_on:
       keycloak:
@@ -162,15 +162,13 @@ services:
       - "keycloak:host-gateway"
   # Kafka Consumer (Python - Monitoring)
   kafka-consumer:
-      build: ./monitoring
+    build: ./monitoring
     container_name: sso-kafka-consumer
     environment:
-      KAFKA_BROKER: ${KAFKA_BROKER:-kafka:9092}
-      KAFKA_TOPIC_KEYCLOAK_EVENTS: ${KAFKA_TOPIC_KEYCLOAK_EVENTS:-keycloak-events}
-      KAFKA_TOPIC_APP_LOGS: ${KAFKA_TOPIC_APP_LOGS:-app-logs}
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      KAFKA_TOPIC: ${KAFKA_TOPIC:-keycloak-events}
       KAFKA_GROUP_ID: ${KAFKA_GROUP_ID:-sso-monitoring}
-      ELASTIC_HOST: ${ELASTIC_HOST:-elasticsearch}
-      ELASTIC_PORT: ${ELASTIC_PORT:-9200}
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST:-http://elasticsearch:9200}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     depends_on:
       - kafka

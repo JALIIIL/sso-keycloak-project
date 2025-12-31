@@ -28,13 +28,13 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
 └──────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────┐
-│   👤 Utilisateur    │
-│    (Navigateur)     │
+│   👤 User           │
+│    (Browser)        │
 └──────────┬──────────┘
            │ HTTP(S)
            ↓
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                          COUCHE APPLICATION                               │
+│                          APPLICATION LAYER                                │
 │  ┌────────────────────┐         OIDC Authorization Code Flow            │
 │  │   Dummy App        │  ←──────────────────────────────────────────┐   │
 │  │  (Node.js/Express) │                                              │   │
@@ -45,7 +45,7 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
 └────────────┼─────────────────────────────────────────────────────────┼───┘
              ↓                                                         ↑
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                      COUCHE AUTHENTIFICATION (SSO)                        │
+│                      AUTHENTICATION LAYER (SSO)                           │
 │  ┌────────────────────────────────────────────────────────────┐          │
 │  │              🔐 Keycloak Server (Port 8080)                 │          │
 │  │                                                             │          │
@@ -53,7 +53,7 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
 │  │  • master (admin)           • dummy-app (OIDC)             │          │
 │  │  • sso-demo (app)                                          │          │
 │  │                                                             │          │
-│  │  Fonctionnalités:                                          │          │
+│  │  Features:                                                  │          │
 │  │  • User Federation (LDAP)   • Event Listeners (Kafka)      │          │
 │  │  • Token Management         • Session Management           │          │
 │  │  • Multi-Factor Auth        • Brute Force Protection       │          │
@@ -83,7 +83,7 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
                                   └──────────────┘
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                     COUCHE MONITORING & EVENTS                            │
+│                     MONITORING & EVENTS LAYER                             │
 │                                                                           │
 │     Keycloak Events + App Logs                                           │
 │                ↓                                                          │
@@ -122,9 +122,9 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 🔄 Flux de Données Détaillé
+### 🔄 Data Flow Details
 
-**1. Authentification (Flux Nominal)**
+**1. Authentication (Nominal Flow)**
 ```
 User → Dummy App (/login)
   ↓
@@ -149,27 +149,27 @@ Event "LOGIN_SUCCESS" → Kafka → Elasticsearch
 User accède aux ressources protégées
 ```
 
-**2. Gestion des Erreurs**
+**2. Error Handling**
 ```
-Token Expiré → Refresh avec refresh_token → Nouveau access_token
-Brute Force → Keycloak bloque compte → Event vers Kafka → Alerte ELK
-Keycloak Down → Circuit breaker → Message d'erreur utilisateur
-LDAP Indisponible → Fallback DB locale (si configuré)
+Expired token → Refresh with refresh_token → New access_token
+Brute force → Keycloak locks account → Event to Kafka → ELK alert
+Keycloak down → Circuit breaker → User-facing error message
+LDAP unavailable → Local DB fallback (if configured)
 ```
 
 ---
-## 📦 Services Déployés
+## 📦 Deployed Services
 
 | Service | Description | Port |
-|---------|-------------|----|--|
-| **Keycloak** | Serveur SSO/IdP (OIDC, SAML) | 8080 |
-| **PostgreSQL** | Base de données Keycloak | 5432 |
-| **OpenLDAP** | Annuaire LDAP pour utilisateurs | 389, 636 |
-| **phpLDAPadmin** | Interface web de gestion LDAP | 6443 |
-| **Kafka + Zookeeper** | Bus de messages pour events | 9092 |
-| **Elasticsearch** | Stockage des logs | 9200 |
-| **Kibana** | Visualisation des logs | 5601 |
-| **Dummy App** | Application de démo Node.js/OIDC | 3000 |
+|---------|-------------|------|
+| **Keycloak** | SSO / IdP server (OIDC, SAML) | 8080 |
+| **PostgreSQL** | Keycloak database | 5432 |
+| **OpenLDAP** | LDAP directory for users | 389, 636 |
+| **phpLDAPadmin** | LDAP management web UI | 6443 |
+| **Kafka + Zookeeper** | Message bus for events | 9092 |
+| **Elasticsearch** | Logs storage | 9200 |
+| **Kibana** | Logs visualization | 5601 |
+| **Dummy App** | Demo Node.js / OIDC application | 3000 |
 
 ## 🚀 Quick Start
 
@@ -210,24 +210,24 @@ docker-compose -f docker-compose.dev.yml ps
 
 ---
 
-## 📁 Structure du Projet
+## 📁 Project Structure
 
 ```
 sso-keycloak-project/
-├── docker/                  # Configuration Docker des services
+├── docker/                  # Docker configuration for services
 │   ├── keycloak/
 │   ├── ldap/
 │   ├── kafka/
 │   └── elk/
-├── dummy-app/               # Application Node.js/Express avec OIDC
-├── scripts/                 # Scripts d'automatisation
-├── monitoring/              # Consumer Kafka Python pour anomalies
-├── docs/                    # Documentation du projet
-│   └── SETUP.md             # Guide d'installation complet
-├── .env.example             # Template des variables d'environnement
-├── docker-compose.dev.yml   # Stack Docker pour développement
-├── docker-compose.prod.yml  # Stack Docker pour production
-└── README.md                # Ce fichier
+├── dummy-app/               # Node.js/Express demo application (OIDC)
+├── scripts/                 # Automation scripts
+├── monitoring/              # Kafka consumer (Python) for anomalies
+├── docs/                    # Project documentation
+│   └── SETUP.md             # Full installation guide
+├── .env.example             # Environment variables template
+├── docker-compose.dev.yml   # Docker Compose for development
+├── docker-compose.prod.yml  # Docker Compose for production
+└── README.md                # This file
 ```
 
 ---
@@ -235,7 +235,7 @@ sso-keycloak-project/
 ## 🛠️ Technologies Utilisées
 
 - **Keycloak 23.0** : Serveur SSO open-source (Red Hat)
-- **OpenLDAP 1.5.0** : Annuaire LDAP pour fédération d'utilisateurs
+- **OpenLDAP 1.5.0** : LDAP directory for user federation
 - **PostgreSQL 15** : Base de données relationnelle
 - **Kafka 7.5** : Bus de messages distribué
 - **Elasticsearch + Kibana 8.11** : Stack ELK pour logs
@@ -244,54 +244,54 @@ sso-keycloak-project/
 
 ---
 
-## 📋 Roadmap du Projet
+## 📋 Project Roadmap
 
-- [x] Setup du repository GitHub
-- [x] Configuration Docker Compose (Keycloak, PostgreSQL, LDAP, Kafka, ELK)
-- [x] Documentation SETUP.md complète
-- [ ] Configuration LDAP dans Keycloak (User Federation)
-- [ ] Développement de la Dummy App Node.js avec OIDC
-- [ ] Consumer Kafka Python pour détection d'anomalies
-- [ ] Tests des flux nominaux (login, callback, logout)
-- [ ] Tests des flux d'erreur (token expiré, brute force, serveur down)
-- [ ] Dashboards Kibana pour supervision
-- [ ] Configuration TLS/HTTPS pour production
-- [ ] Documentation finale et présentation
-
----
-
-## 🔐 Sécurité
-
-⚠️ **Ce projet est pour le développement/apprentissage uniquement !**
-
-Pour la production, pensez à :
-- ✅ Activer HTTPS/TLS partout
-- ✅ Utiliser des secrets managers (Vault, AWS Secrets Manager)
-- ✅ Configurer des rate limits (anti-brute force)
-- ✅ Activer l'authentification Elasticsearch
-- ✅ Générer des mots de passe forts et uniques
+- [x] GitHub repository setup
+- [x] Docker Compose configuration (Keycloak, PostgreSQL, LDAP, Kafka, ELK)
+- [x] Complete SETUP.md documentation
+- [ ] LDAP configuration in Keycloak (User Federation)
+- [ ] Dummy App Node.js OIDC development
+- [ ] Kafka Python consumer for anomaly detection
+- [ ] Nominal flow tests (login, callback, logout)
+- [ ] Error flow tests (expired token, brute force, server down)
+- [ ] Kibana dashboards for monitoring
+- [ ] TLS/HTTPS configuration for production
+- [ ] Final documentation and presentation
 
 ---
 
-## 🤝 Contribution
+## 🔐 Security
 
-1. Forkez le projet
-2. Créez une branche pour votre feature (`git checkout -b feature/AmazingFeature`)
-3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
-4. Pushez vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrez une Pull Request
+⚠️ **This project is intended for development and learning purposes only.**
+
+For production, consider:
+- ✅ Enable HTTPS/TLS for all services
+- ✅ Use a secrets manager (Vault, AWS Secrets Manager)
+- ✅ Configure rate limiting (anti-brute force)
+- ✅ Enable Elasticsearch authentication
+- ✅ Generate strong, unique passwords
 
 ---
 
-## 📝 Licence
+## 🤝 Contributing
 
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+1. Fork the project
+2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
 ## 📞 Contact
 
-Pour toute question ou suggestion, ouvrez une issue sur ce repository.
+For questions or suggestions, please open an issue in this repository.
 
 ---
 
