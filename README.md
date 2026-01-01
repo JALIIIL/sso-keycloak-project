@@ -24,7 +24,7 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                         ARCHITECTURE SSO KEYCLOAK                         │
+│                         ARCHITECTURE SSO KEYCLOAK                        │
 └──────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────┐
@@ -34,32 +34,32 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
            │ HTTP(S)
            ↓
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                          APPLICATION LAYER                                │
-│  ┌────────────────────┐         OIDC Authorization Code Flow            │
-│  │   Dummy App        │  ←──────────────────────────────────────────┐   │
+│                          APPLICATION LAYER                               │
+│  ┌────────────────────┐         OIDC Authorization Code Flow             │
+│  │   Dummy App        │  ←───────────────────────────────────────────┐   │
 │  │  (Node.js/Express) │                                              │   │
-│  │   Port 3000        │  Routes:  /login → /callback → /protected   │   │
+│  │   Port 3000        │  Routes:  /login → /callback → /protected    │   │
 │  └─────────┬──────────┘                                              │   │
 │            │ OIDC Protocol (JWT Tokens)                              │   │
 │            │ Events → Kafka                                          │   │
 └────────────┼─────────────────────────────────────────────────────────┼───┘
              ↓                                                         ↑
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                      AUTHENTICATION LAYER (SSO)                           │
+│                      AUTHENTICATION LAYER (SSO)                          │
 │  ┌────────────────────────────────────────────────────────────┐          │
-│  │              🔐 Keycloak Server (Port 8080)                 │          │
-│  │                                                             │          │
+│  │              🔐 Keycloak Server (Port 8080)               │          │
+│  │                                                            │          │
 │  │  Realms:                    Clients:                       │          │
 │  │  • master (admin)           • dummy-app (OIDC)             │          │
 │  │  • sso-demo (app)                                          │          │
-│  │                                                             │          │
-│  │  Features:                                                  │          │
+│  │                                                            │          │
+│  │  Features:                                                 │          │
 │  │  • User Federation (LDAP)   • Event Listeners (Kafka)      │          │
 │  │  • Token Management         • Session Management           │          │
 │  │  • Multi-Factor Auth        • Brute Force Protection       │          │
 │  └─────────┬────────────────────────────┬─────────────────────┘          │
-│            │                            │                                 │
-└────────────┼────────────────────────────┼─────────────────────────────────┘
+│            │                            │                                │
+└────────────┼────────────────────────────┼────────────────────────────────┘
              ↓                            ↓
       ┌─────────────┐             ┌──────────────┐
       │ PostgreSQL  │             │   OpenLDAP   │
@@ -82,11 +82,11 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
                                   │  (Web UI)    │
                                   └──────────────┘
 
-┌──────────────────────────────────────────────────────────────────────────┐
-│                     MONITORING & EVENTS LAYER                             │
-│                                                                           │
-│     Keycloak Events + App Logs                                           │
-│                ↓                                                          │
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     MONITORING & EVENTS LAYER                           │
+│                                                                         │
+│     Keycloak Events + App Logs                                          │
+│                ↓                                                        │
 │    ┌────────────────────┐      ┌─────────────────┐                      │
 │    │   Zookeeper        │ ←────│     Kafka       │                      │
 │    │   (Port 2181)      │      │   (Port 9092)   │                      │
@@ -98,7 +98,7 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
 │                                │  • security-    │                      │
 │                                │    alerts       │                      │
 │                                └────────┬────────┘                      │
-│                                         ↓                                │
+│                                         ↓                               │
 │                              ┌──────────────────────┐                   │
 │                              │  Kafka Consumer      │                   │
 │                              │  (Python Script)     │                   │
@@ -108,18 +108,18 @@ Open-source Single Sign-On (SSO) architecture project using Keycloak, OpenLDAP, 
 │                              │  • Token abuse       │                   │
 │                              │  • Anomalies         │                   │
 │                              └──────────┬───────────┘                   │
-│                                         ↓                                │
-│                     ┌──────────────────────────────────┐               │
-│                     │  📊 Elasticsearch + Kibana       │               │
-│                     │  (Ports 9200, 5601)              │               │
-│                     │                                  │               │
-│                     │  Dashboards:                     │               │
-│                     │  • Login success/failure rate    │               │
-│                     │  • Geographic analysis           │               │
-│                     │  • Token expiration monitoring   │               │
-│                     │  • Security alerts               │               │
-│                     └──────────────────────────────────┘               │
-└──────────────────────────────────────────────────────────────────────────┘
+│                                         ↓                               │
+│                     ┌──────────────────────────────────┐                │
+│                     │  📊 Elasticsearch + Kibana      │                │
+│                     │  (Ports 9200, 5601)              │                │
+│                     │                                  │                │
+│                     │  Dashboards:                     │                │
+│                     │  • Login success/failure rate    │                │
+│                     │  • Geographic analysis           │                │
+│                     │  • Token expiration monitoring   │                │
+│                     │  • Security alerts               │                │
+│                     └──────────────────────────────────┘                │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 🔄 Data Flow Details
