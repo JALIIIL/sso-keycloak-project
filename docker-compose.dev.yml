@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   # ================================
   # PostgreSQL Database
@@ -67,24 +68,31 @@ services:
       LDAP_DOMAIN: ${LDAP_DOMAIN}
       LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
       LDAP_BASE_DN: ${LDAP_BASE_DN}
+      LDAP_TLS: "false"
     volumes:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap/slapd.d
-      - ./docker/ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
+      #- ./docker/ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
     ports:
       - "${LDAP_PORT}:389"
       - "${LDAP_TLS_PORT}:636"
     networks:
       - sso-network
+    healthcheck:
+      test: ["CMD-SHELL", "ldapsearch -x -H ldap://localhost:389 -b '${LDAP_BASE_DN}' -s base || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
 
   # ================================
-  # phpLDAPadmin (LDAP Management UI)
+  # phpLDAPadmin (Web UI for OpenLDAP)
   # ================================
   phpldapadmin:
     image: osixia/phpldapadmin:0.9.0
     container_name: sso-phpldapadmin
     environment:
-      PHPLDAPADMIN_LDAP_HOSTS: openldap
+      PHPLDAPADMIN_LDAP_HOSTS: sso-openldap
       PHPLDAPADMIN_HTTPS: "false"
     ports:
       - "6443:80"
@@ -140,6 +148,12 @@ services:
       - "${ELASTIC_PORT}:9200"
     networks:
       - sso-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health?wait_for_status=green&timeout=1s || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
   # ================================
   # Kibana (Logs Visualization)

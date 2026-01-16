@@ -1,244 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .dashboard-container {
-            background: white;
-            padding: 40px 50px;
-            border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 600px;
-        }
-        #loading {
-            text-align: center;
-            font-size: 18px;
-            color: #667eea;
-        }
-        #user-content {
-            display: none;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-        .welcome-message {
-            text-align: center;
-            color: #667eea;
-            font-size: 16px;
-            margin-bottom: 30px;
-            padding: 15px;
-            background: #f0f4ff;
-            border-radius: 8px;
-        }
-        .info-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 5px solid #667eea;
-            transition: transform 0.2s;
-        }
-        .info-card:hover {
-            transform: translateX(5px);
-        }
-        .label {
-            font-weight: bold;
-            color: #555;
-            display: block;
-            margin-bottom: 10px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .value {
-            color: #333;
-            font-size: 20px;
-            font-weight: 500;
-        }
-        .roles-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin-right: 8px;
-            margin-top: 5px;
-            font-weight: 500;
-        }
-        .role-user {
-            background: #17a2b8;
-            color: white;
-        }
-        .role-admin {
-            background: #dc3545;
-            color: white;
-        }
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 25px 0;
-        }
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-        button {
-            width: 100%;
-            padding: 16px;
-            margin-top: 30px;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background: #dc3545;
-            color: white;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        button:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
-        }
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #f5c6cb;
-            margin-top: 15px;
-        }
-    </style>
-</head>
-<body>
-    <div class="dashboard-container">
-        <div id="loading">
-            <svg width="50" height="50" viewBox="0 0 50 50">
-                <circle cx="25" cy="25" r="20" stroke="#667eea" stroke-width="4" fill="none" stroke-dasharray="31.4 31.4" transform="rotate(0 25 25)">
-                    <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/>
-                </circle>
-            </svg>
-            <p style="margin-top: 15px;">Loading user information...</p>
-        </div>
-        
-        <div id="user-content">
-            <h2>👋 User Dashboard</h2>
+  <meta charset="UTF-8" />
+  <title>Dashboard - SSO Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-            <div class="welcome-message">
-                Welcome to your Keycloak SSO dashboard!
-            </div>
-            
-            <div class="info-card">
-                <span class="label">Full Name</span>
-                <span class="value" id="username">-</span>
-            </div>
-            
-            <div class="info-card">
-                <span class="label">Email Address</span>
-                <span class="value" id="email">-</span>
-            </div>
-            
-            <div class="info-card">
-                <span class="label">Roles & Permissions</span>
-                <div id="roles">-</div>
-            </div>
-            
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-value">✓</div>
-                    <div class="stat-label">Authenticated</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">SSO</div>
-                    <div class="stat-label">Keycloak</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">OIDC</div>
-                    <div class="stat-label">Protocol</div>
-                </div>
-            </div>
-            
-            <button onclick="logout()">🚪 Log out</button>
-            
-            <div id="error" class="error-message" style="display:none;"></div>
-        </div>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .dashboard-container {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 340px;
+      text-align: center;
+    }
+
+    .dashboard-container h2 {
+      margin-bottom: 20px;
+    }
+
+    .info {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .info span {
+      font-weight: bold;
+    }
+
+    .roles {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #555;
+    }
+
+    .actions {
+      margin-top: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .logout-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .logout-btn:hover {
+      background-color: #c82333;
+    }
+
+    .refresh-btn {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .refresh-btn:hover {
+      background-color: #0069d9;
+    }
+
+    .status-ok {
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .status-error {
+      color: #dc3545;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <h2>Espace utilisateur</h2>
+
+    <div class="info">
+      Identifiant : <span id="username">Chargement...</span>
     </div>
-    
-    <script>
-        async function loadUserInfo() {
-            try {
-                const response = await fetch('/api/user');
-                const data = await response.json();
-                
-                if (data.authenticated) {
-                    // Masquer le loading
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('user-content').style.display = 'block';
-                    
-                    // Afficher les informations
-                    document.getElementById('username').textContent = 
-                        data.user.displayName || data.user.name || 'User';
-                    document.getElementById('email').textContent = 
-                        data.user.email || 'Not specified';
-                    
-                    // Afficher les rôles
-                    const roles = data.user.roles || ['user'];
-                    document.getElementById('roles').innerHTML = roles
-                        .map(r => `<span class="roles-badge role-${r}">${r.toUpperCase()}</span>`)
-                        .join('');
-                } else {
-                    window.location.href = '/';
-                }
-            } catch (e) {
-                console.error('Erreur:', e);
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('error').textContent = 
-                    'Failed to load user information. Please sign in again.';
-                setTimeout(() => window.location.href = '/', 3000);
-            }
+
+    <div class="info">
+      Email : <span id="email">Chargement...</span>
+    </div>
+
+    <div class="info">
+      Statut : <span id="status" class="status-ok">Authentification en cours...</span>
+    </div>
+
+    <div class="roles">
+      Rôles : <span id="roles">Chargement...</span>
+    </div>
+
+    <div class="actions">
+      <button class="refresh-btn" onclick="loadUser()">Rafraîchir les informations</button>
+      <button class="logout-btn" onclick="logout()">Se déconnecter</button>
+    </div>
+  </div>
+
+  <script>
+    async function loadUser() {
+      const statusEl = document.getElementById('status');
+      const usernameEl = document.getElementById('username');
+      const emailEl = document.getElementById('email');
+      const rolesEl = document.getElementById('roles');
+
+      try {
+        statusEl.textContent = 'Chargement...';
+        statusEl.className = 'status-ok';
+
+        const res = await fetch('/api/user');
+        if (!res.ok) {
+          usernameEl.textContent = 'Inconnu';
+          emailEl.textContent = 'Non disponible';
+          rolesEl.textContent = 'Aucun';
+          statusEl.textContent = 'Non authentifié';
+          statusEl.className = 'status-error';
+          return;
         }
-        
-        function logout() {
-            if (confirm('Do you really want to log out?')) {
-                window.location.href = '/logout';
-            }
-        }
-        
-        // Charger automatiquement au démarrage
-        loadUserInfo();
-    </script>
+
+        const data = await res.json();
+        const user = data.user || {};
+
+        usernameEl.textContent = user.name || user.displayName || 'User';
+        emailEl.textContent = user.email || 'Non spécifié';
+        rolesEl.textContent = (user.roles || ['user']).join(', ');
+        statusEl.textContent = 'Authentifié';
+        statusEl.className = 'status-ok';
+      } catch (err) {
+        console.error(err);
+        usernameEl.textContent = 'Erreur';
+        emailEl.textContent = 'Erreur';
+        rolesEl.textContent = 'Erreur';
+        statusEl.textContent = 'Erreur de chargement';
+        statusEl.className = 'status-error';
+      }
+    }
+
+    function logout() {
+      window.location.href = '/logout';
+    }
+
+    loadUser();
+  </script>
 </body>
 </html>

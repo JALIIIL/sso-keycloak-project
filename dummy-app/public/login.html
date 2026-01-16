@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSO Login</title>
+    <title>Connexion</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,111 +13,73 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
         }
+
         .login-container {
             background: white;
-            padding: 30px 40px;
+            padding: 20px 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 320px;
-            text-align: center;
+            width: 300px;
         }
+
         .login-container h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #333;
         }
-        .logo {
-            margin-bottom: 20px;
+
+        .login-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
-        .logo img {
-            width: 80px;
-            height: 80px;
-        }
-        .info-text {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-        .btn-login {
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
             width: 100%;
-            padding: 12px;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .login-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
             background-color: #28a745;
             border: none;
             color: white;
             font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background-color 0.3s;
         }
-        .btn-login:hover {
+
+        .login-container input[type="submit"]:hover {
             background-color: #218838;
         }
-        .register-link {
-            margin-top: 20px;
+
+        .login-container p {
             text-align: center;
             font-size: 14px;
         }
-        .register-link a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-        .features {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            text-align: left;
-        }
-        .feature-item {
-            margin: 10px 0;
-            font-size: 13px;
-            color: #666;
-        }
-        .feature-item:before {
-            content: "\2713";
-            color: #28a745;
-            font-weight: bold;
-            margin-right: 8px;
-        }
     </style>
 </head>
+
 <body>
     <div class="login-container">
-        <div class="logo">
-            <svg width="80" height="80" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="#667eea" opacity="0.2"/>
-                <path d="M50 20 L65 40 L50 35 L35 40 Z" fill="#667eea"/>
-                <rect x="45" y="40" width="10" height="30" fill="#667eea"/>
-                <circle cx="50" cy="75" r="8" fill="#667eea"/>
-            </svg>
-        </div>
-        
-        <h2>SSO Login</h2>
+        <h2>Connexion</h2>
 
-        <p class="info-text">
-            Sign in with your Keycloak account to access the application.
-        </p>
+        <form action="login.php" method="POST">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" placeholder="Entrez votre nom" required>
 
-        <a href="/login" class="btn-login">
-            Sign in with Keycloak
-        </a>
-        
-        <div class="features">
-            <div class="feature-item">Secure authentication</div>
-            <div class="feature-item">Single Sign-On (SSO)</div>
-            <div class="feature-item">Centralized management</div>
-        </div>
-        
-        <p class="register-link">
-            Don't have an account? <a href="/register">Create an account</a>
-        </p>
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+
+            <input type="submit" value="Se connecter">
+        </form>
+
+        <p>Pas encore inscrit ? <a href="register.html">Créer un compte</a></p>
     </div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Créer un compte</title>
+  <title>Connexion</title>
 
   <style>
     body {
@@ -16,7 +16,7 @@
       margin: 0;
     }
 
-    .register-container {
+    .login-container {
       background: white;
       padding: 20px 30px;
       border-radius: 8px;
@@ -24,22 +24,22 @@
       width: 300px;
     }
 
-    .register-container h2 {
+    .login-container h2 {
       text-align: center;
       margin-bottom: 20px;
     }
 
-    .register-container p {
+    .login-container p {
       text-align: center;
       font-size: 14px;
       margin-top: 15px;
     }
 
-    .btn-register {
-      width: 100%;
+    .btn-keycloak {
       display: block;
+      width: 100%;
       padding: 10px;
-      background-color: #007bff;
+      background-color: #28a745;
       border: none;
       color: white;
       font-size: 16px;
@@ -49,22 +49,20 @@
       text-decoration: none;
     }
 
-    .btn-register:hover {
-      background-color: #0069d9;
+    .btn-keycloak:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 
 <body>
-  <div class="register-container">
-    <h2>Créer un compte</h2>
+  <div class="login-container">
+    <h2>Connexion</h2>
 
-    <!-- En dev, on passe par la même entrée /login (auto‑registration dans Keycloak si activée) -->
-    <a href="/login" class="btn-register">
-      Créer un compte via Keycloak
-    </a>
+    <!-- Bouton qui lance le flux Keycloak -->
+    <a href="/login" class="btn-keycloak">Se connecter avec Keycloak</a>
 
-    <p>Déjà inscrit ? <a href="/login-page">Se connecter</a></p>
+    <p>Pas encore inscrit ? <a href="/register">Créer un compte</a></p>
   </div>
 </body>
 </html>
