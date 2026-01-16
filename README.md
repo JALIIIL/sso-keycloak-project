@@ -249,14 +249,14 @@ sso-keycloak-project/
 - [x] GitHub repository setup
 - [x] Docker Compose configuration (Keycloak, PostgreSQL, LDAP, Kafka, ELK)
 - [x] Complete SETUP.md documentation
-- [ ] LDAP configuration in Keycloak (User Federation)
-- [ ] Dummy App Node.js OIDC development
+- [x] LDAP configuration in Keycloak (User Federation)
+- [x] Dummy App Node.js OIDC development
 - [ ] Kafka Python consumer for anomaly detection
-- [ ] Nominal flow tests (login, callback, logout)
+- [x] Nominal flow tests (login, callback, logout)
 - [ ] Error flow tests (expired token, brute force, server down)
 - [ ] Kibana dashboards for monitoring
 - [ ] TLS/HTTPS configuration for production
-- [ ] Final documentation and presentation
+- [x] Final documentation and presentation
 
 ---
 
